@@ -7,7 +7,7 @@ connection = udp('localhost', 8000, 'LocalPort', 8001);
 fopen(connection);
 disp(connection.status);
 
-% Change the number of GameObjects
+% Change the number of GameObjects (has to be done manually!)
 GameObjects = 2;
 
 while(1)
@@ -28,7 +28,7 @@ while(1)
     data_received = strsplit(data_received,',');
     data_received = str2double(data_received);
     
-    if size(data_received,2) ~= ((GameObjects * 6) + 1)
+    if size(data_received,2) ~= ((GameObjects * 6) + 2)
         % ignore
     else
         if exist('object_data')

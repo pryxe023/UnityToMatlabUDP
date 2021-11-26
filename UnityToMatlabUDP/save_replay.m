@@ -25,16 +25,17 @@ data = importdata(filename);
 
 nr_gameobjects = (size(data,2) - 1) / 6;
 
-timestamp = data(:,end);
+timestamp = data(:,end-1);
 timestamp = timestamp - timestamp(1); % make the recording "start" from 0
+scalingfactor = data(:,end);
 
 for ii = 0 : nr_gameobjects-1
-    gameobjects(:,:,ii+1) = [data(:,(ii*6)+1:(ii+1)*6) timestamp];
+    gameobjects(:,:,ii+1) = [data(:,(ii*6)+1:(ii+1)*6) timestamp scalingfactor];
 end
 
 %% Save to csv-files with a header
 
-header = {'pos_x' 'pos_y' 'pos_z' 'rot_x' 'rot_y' 'rot_z' 'time'};
+header = {'pos_x' 'pos_y' 'pos_z' 'rot_x' 'rot_y' 'rot_z' 'time' 'scale'};
 header = strjoin(header,',');
 
 for jj = 1 : nr_gameobjects

@@ -17,11 +17,15 @@ public class UDPSender : MonoBehaviour
   [Tooltip("Remote port")]
   [SerializeField] public int portRemote = 8001;
 
+  [Header("Scaling factor")]
+  [Tooltip("Add the GameObject with the scaling factor to be logged.")]
+  [SerializeField] public GameObject scaleFactorObject;
+
   [Header("GameObjects to track")]
   [SerializeField] public GameObject[] trackedObjects;
 
   // Floats to be sent
-  private double[] SendFloat = new double[13];
+  private double[] SendFloat = new double[14];
   private string UDP_message;
   private bool keepSending = true;
 
@@ -68,6 +72,7 @@ public class UDPSender : MonoBehaviour
       SendFloat[11] = trackedObjects[1].transform.rotation.eulerAngles.z;
 
       SendFloat[12] = Time.time; // Add the timestamp
+      SendFloat[13] = scaleFactorObject.transform.localScale.x; // Add the scaling factor. Since scaling is mostly done in all directions equally, just take the x-scale.
 
       // Combine into a string
       UDP_message = SendFloat[0] + ","
@@ -82,7 +87,8 @@ public class UDPSender : MonoBehaviour
                   + SendFloat[9] + ","
                   + SendFloat[10] + ","
                   + SendFloat[11] + ","
-                  + SendFloat[12];
+                  + SendFloat[12] + ","
+                  + SendFloat[13];
 
       // Send the string over UDP
       sendData(UDP_message);
